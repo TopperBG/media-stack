@@ -6,33 +6,27 @@ networks:
     driver: bridge
 
 services:
-  bazarr:
-    depends_on:
-      - sonarr
-      - radarr
-    build:
-      image: lscr.io/linuxserver/bazarr:latest
-      container_name: bazarr
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
     networks:
       - int
-    ports:
-      - 6767:6767
     environment:
       - TZ=Europe/Sofia
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
     volumes:
-      - ${SERV_CFG_ROOT:?err}/bazarr:/config
-      - ${SERV_STORAGE_PATH:?err}/Movies:/Movies
-      - ${SERV_STORAGE_PATH:?err}/TV:/TV
+      - ${SERV_CFG_ROOT:?err}/prowlarr:/config
+    ports:
+      - 9696:9696
     restart: unless-stopped
 
   radarr:
     depends_on:
       - prowlarr
-    build:
-      image: lscr.io/linuxserver/radarr:latest
-      container_name: radarr
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
     networks:
       - int
     ports:
@@ -51,9 +45,8 @@ services:
   sonarr:
     depends_on:
       - prowlarr
-    build:
-      image: lscr.io/linuxserver/sonarr:latest
-      container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
     networks:
       - int
     ports:
@@ -69,19 +62,24 @@ services:
       - ${SERV_STORAGE_PATH:?err}/TV:/TV
     restart: unless-stopped
 
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
+  bazarr:
+    depends_on:
+      - sonarr
+      - radarr
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
     networks:
       - int
+    ports:
+      - 6767:6767
     environment:
       - TZ=Europe/Sofia
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
     volumes:
-      - ${SERV_CFG_ROOT:?err}/prowlarr:/config
-    ports:
-      - 9696:9696
+      - ${SERV_CFG_ROOT:?err}/bazarr:/config
+      - ${SERV_STORAGE_PATH:?err}/Movies:/Movies
+      - ${SERV_STORAGE_PATH:?err}/TV:/TV
     restart: unless-stopped
 
   transmission:
@@ -91,7 +89,7 @@ services:
       - TZ=Europe/Sofia
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
-      - UMASK = 002
+      - UMASK=002
       - TRANSMISSION_WEB_HOME=/config/web #optional
       - USER= #optional
       - PASS= #optional
