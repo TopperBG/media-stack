@@ -19,6 +19,23 @@ docker-compose --file your-docker-compose-file.yml up -d
 ```
 docker-compose ps
 docker-compose start
+docker-compose start service
 docker-compose stop
+docker-compose stop service
 docker-compose logs -f
+docker-compose logs -f service
+```
+- Remove all containers in stack (NOTE: all containers should be stopped with docker-compose stop)
+```
+docker-compose stop
+docker-compose rm
+```
+
+- If you edit your docker-compose.yml should rebuild whole stack
+```
+docker-compose up -d --force-recreate
+```
+or recreate just one of services
+```
+docker-compose create service --force-recreate --remove-orphan
 ```
