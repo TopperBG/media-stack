@@ -1,5 +1,18 @@
 version: "3.1"
 
+# Standart thems for theme.park
+###
+# aquamarine hotline hotpink dracula dark organizr space-gray overseerr plex nord maroon
+##
+# Community custom themes. Enable them with TP_COMMUNITY_THEME="true"
+###
+# mind soul reality power space time onedark pine-shadow trueblack ibracorp hotline-old blackberry-abyss blackberry-amethyst blackberry-carol
+# all blackbery themes at https://docs.theme-park.dev/community-themes/blackberry-themes/
+###
+# Addons. Enable it exmpl: TP_ADDON=sonarr-4k-logo
+# https://docs.theme-park.dev/themes/addons/
+
+
 networks:
   int:
     name: internal
