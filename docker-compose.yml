@@ -152,8 +152,6 @@ services:
       # enable next options only if you set real data in .env file
       #- WATCHTOWER_NOTIFICATIONS=shoutrrr #optional
       #- WATCHTOWER_NOTIFICATION_URL=telegram://${SERV_TG_BOT_ID:?err}/?channels=${SERV_CHANNEL_ID:?err} #optional
-    ports:
-      - 8080:8080
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
