@@ -10,9 +10,13 @@ docker-compose --version
 ```
 docker-compose up -d
 ```
-or if your .yml is not standart docker-compose.yml name:
+or if your .yml is not standart (eg. docker-compose.yml) name:
 ```
 docker-compose --file your-docker-compose-file.yml up -d
+```
+or don't want to run a container, for example portainer:
+```
+docker-compose up --scale portainer=0 -d
 ```
 
 - Check builded stack

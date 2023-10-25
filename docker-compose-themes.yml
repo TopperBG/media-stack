@@ -285,4 +285,41 @@ services:
       - ${SERV_CFG_ROOT:?err}/torrserver/db:/torrserver/db
     restart: always
 
+ 
+  plex-meta-manager:
+      depends_on:
+        - plex
+      image: lscr.io/linuxserver/plex-meta-manager:latest
+      container_name: plex-meta-manager
+      environment:
+        - PUID=${SERV_PUID:?err}
+        - PGID=${SERV_PGID:?err}
+        - TZ=Europe/Sofia
+        - PMM_CONFIG=/config/config.yml #optional
+        - PMM_TIME=03:00 #optional
+        - PMM_RUN=true #optional
+        - PMM_TEST=false #optional
+        - PMM_NO_MISSING=true #optional
+        - PMM_OVERLAYS=true
+        - PMM_NO_REPORT=true
+        - PMM_DEBUG=false
+      volumes:
+        - ${SERV_CFG_ROOT:?err}/plex-meta-manager:/config
+  #    mem_limit: 2g # optional
+  #    cpus: 2 # optional
+      restart: unless-stopped
 
+
+  plex-image-cleanup:
+      env_file:
+        - plex-image-cleanup.env
+      depends_on:
+        - plex
+      image: meisnate12/plex-image-cleanup
+      container_name: plex-image-cleanup
+      environment:
+        - TZ=Europe/Sofia #optional
+      volumes:
+        - ${SERV_CFG_ROOT:?err}/plex-image-cleanup:/config
+        - ${SERV_PLEX_CACHE:?err}:/plex:rw # According your Plex installation
+      restart: unless-stopped
