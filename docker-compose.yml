@@ -203,8 +203,8 @@ services:
       - TZ=Europe/Sofia
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
-      - VERSION=docker
-      - PLEX_CLAIM= #optional
+      - VERSION=docker # docker, latest, public or <specific-version>. Check the following link for more information: https://hub.docker.com/r/linuxserver/plex
+      # - PLEX_CLAIM=claim-eSzxLSAjxJHCkZB2JWzp # Required for the first startup. Can be found here: https://plex.tv/claim. Warning: There is expiration time!
     volumes:
       - ${SERV_CFG_ROOT:?err}/plex:/config
       - ${SERV_STORAGE_PATH:?err}/Movies:/movies
