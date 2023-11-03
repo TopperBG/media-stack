@@ -289,7 +289,7 @@ services:
   plex-meta-manager:
       depends_on:
         - plex
-      image: lscr.io/linuxserver/plex-meta-manager:latest
+      image: meisnate12/plex-meta-manager:latest
       container_name: plex-meta-manager
       environment:
         - PUID=${SERV_PUID:?err}
@@ -305,8 +305,8 @@ services:
         - PMM_DEBUG=false
       volumes:
         - ${SERV_CFG_ROOT:?err}/plex-meta-manager:/config
-  #    mem_limit: 2g # optional
-  #    cpus: 2 # optional
+  #    mem_limit: 2g # optional limit cause PMM is resource hungry
+  #    cpus: 2 # optional limit cause PMM is resource hungry
       restart: unless-stopped
 
 
