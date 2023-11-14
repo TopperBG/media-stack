@@ -214,7 +214,7 @@ services:
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
     volumes:
-      - ${SERV_CFG_ROOT:?err}/overseerr:/config
+      - ${SERV_CFG_ROOT:?err}/overseerr:/app/config
     ports:
       - 5055:5055
     restart: unless-stopped
