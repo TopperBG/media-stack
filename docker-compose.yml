@@ -203,8 +203,8 @@ services:
       - TZ=Europe/Sofia
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
-      - VERSION=docker
-      - PLEX_CLAIM= #optional
+      - VERSION=docker # docker, latest, public or <specific-version>. Check the following link for more information: https://hub.docker.com/r/linuxserver/plex
+      # - PLEX_CLAIM=claim-eSzxLSAjxJHCkZB2JWzp # Required for the first startup. Can be found here: https://plex.tv/claim. Warning: There is expiration time!
     volumes:
       - ${SERV_CFG_ROOT:?err}/plex:/config
       - ${SERV_STORAGE_PATH:?err}/Movies:/movies
@@ -257,7 +257,7 @@ services:
   plex-meta-manager:
     depends_on:
       - plex
-    image: lscr.io/linuxserver/plex-meta-manager:latest
+    image: meisnate12/plex-meta-manager:latest
     container_name: plex-meta-manager
     environment:
       - PUID=${SERV_PUID:?err}
@@ -273,8 +273,8 @@ services:
       - PMM_DEBUG=false
     volumes:
       - ${SERV_CFG_ROOT:?err}/plex-meta-manager:/config
-#    mem_limit: 2g # optional
-#    cpus: 2 # optional
+#    mem_limit: 2g # optional limit cause PMM is resource hungry
+#    cpus: 2 # optional  limit cause PMM is resource hungry
     restart: unless-stopped
 
   plex-image-cleanup:
