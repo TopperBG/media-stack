@@ -41,5 +41,5 @@ docker-compose up -d --force-recreate
 ```
 or recreate just one of services
 ```
-docker-compose create service --force-recreate --remove-orphan
+docker-compose up --force-recreate --no-deps service_name
 ```
