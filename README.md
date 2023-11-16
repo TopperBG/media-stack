@@ -35,11 +35,15 @@ docker-compose stop
 docker-compose rm
 ```
 
-- If you edit your docker-compose.yml should rebuild whole stack
+- If you edit your docker-compose.yml should rebuild whole stack:
 ```
 docker-compose up -d --force-recreate
 ```
-or recreate just one of services
+or recreate just one of services:
 ```
-docker-compose up --force-recreate --no-deps service_name
+docker-compose up -d --force-recreate --no-deps service_name
+```
+or
+```
+docker-compose up -d --build service_name
 ```
