@@ -175,7 +175,7 @@ services:
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
     ports:
-      - 81:81
+      - 81:80
     volumes:
       - ${SERV_CFG_ROOT:?err}/muximux:/config
     restart: unless-stopped
