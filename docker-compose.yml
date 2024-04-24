@@ -257,7 +257,8 @@ services:
   plex-meta-manager:
     depends_on:
       - plex
-    image: meisnate12/plex-meta-manager:latest
+    # image: meisnate12/plex-meta-manager:latest
+    image: kometateam/kometa 
     container_name: plex-meta-manager
     environment:
       - PUID=${SERV_PUID:?err}
@@ -282,7 +283,8 @@ services:
       - plex-image-cleanup.env
     depends_on:
       - plex
-    image: meisnate12/plex-image-cleanup
+    # image: meisnate12/plex-image-cleanup
+    image: kometateam/imagemaid
     container_name: plex-image-cleanup
     environment:
       - TZ=Europe/Sofia #optional
