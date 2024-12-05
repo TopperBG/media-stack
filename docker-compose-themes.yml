@@ -228,14 +228,14 @@ services:
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
       - VERSION=docker
-      - PLEX_CLAIM= #optional
+      - PLEX_CLAIM= #optional token
       - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:plex
       - TP_COMMUNITY_THEME="true"  #Optional - if you plan to use custom themes
       - TP_THEME=pine-shadow
     volumes:
       - ${SERV_CFG_ROOT:?err}/plex:/config
-      - ${SERV_STORAGE_PATH:?err}/Movies:/movies
-      - ${SERV_STORAGE_PATH:?err}/TV:/tv
+      - ${SERV_STORAGE_PATH:?err}/Movies:/Movies
+      - ${SERV_STORAGE_PATH:?err}/TV:/TV
     restart: unless-stopped
 
   portainer:
@@ -328,10 +328,23 @@ services:
     container_name: dozzle
     image: amir20/dozzle:latest
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock #Docker conf should use "log-driver": "journald"
     ports:
       - 8888:8080
     restart: unless-stopped
+  
+  striparr:
+    image: mikenye/striparr
+    container_name: striparr
+    environment:
+      - PUID=${SERV_PUID:?err}
+      - PGID=${SERV_PGID:?err}
+      - TZ=Europe/Sofia
+    volumes:
+      - ${SERV_STORAGE_PATH:?err}/Movies:/Movies
+      - ${SERV_STORAGE_PATH:?err}/TV:/TV
+    restart: unless-stopped
+    network_mode: host
   
   lingarr:
     image: lingarr/lingarr:latest
@@ -341,7 +354,7 @@ services:
       - "9876:8080"
     volumes:
       - ${SERV_STORAGE_PATH:?err}/Movies:/Movies #match with radarr
-      - ${SERV_STORAGE_PATH:?err}/Tv:/Tv #match with sonarr
+      - ${SERV_STORAGE_PATH:?err}/TV:/TV #match with sonarr
       - ${SERV_CFG_ROOT:?err}/lingarr:/app/config
     networks:
       - lingarr
