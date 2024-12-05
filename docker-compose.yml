@@ -263,7 +263,7 @@ services:
       - ${SERV_CFG_ROOT:?err}/torrserver/db:/torrserver/db
     restart: always
 
-  plex-meta-manager:
+  kometa:
     depends_on:
       - plex
     # image: meisnate12/plex-meta-manager:latest
@@ -273,16 +273,17 @@ services:
       - PUID=${SERV_PUID:?err}
       - PGID=${SERV_PGID:?err}
       - TZ=Europe/Sofia
-      - PMM_CONFIG=/config/config.yml #optional
-      - PMM_TIME=03:00 #optional
-      - PMM_RUN=true #optional
-      - PMM_TEST=false #optional
-      - PMM_NO_MISSING=true #optional
-      - PMM_OVERLAYS=true
-      - PMM_NO_REPORT=true
-      - PMM_DEBUG=false
+      - KOMETA_CONFIG=/config/config.yml #optional
+      - KOMETA_TIMES=22:00 #optional
+      # - KOMETA_RUN=true #optional
+      # - KOMETA_TESTS=false #optional
+      # - KOMETA_DEBUG=true
+      # - KOMETA_NO_MISSING=true #optional
+      - KOMETA_OVERLAYS_ONLY=false
+      - KOMETA_NO_REPORT=true
+      - KOMETA_NO_COUNTDOWN=true
     volumes:
-      - ${SERV_CFG_ROOT:?err}/plex-meta-manager:/config
+      - ${SERV_CFG_ROOT:?err}/kometa:/config
 #    mem_limit: 2g # optional limit cause PMM is resource hungry
 #    cpus: 2 # optional  limit cause PMM is resource hungry
     restart: unless-stopped
