@@ -205,7 +205,7 @@ services:
     restart: unless-stopped
 
   plex:
-    image: plexinc/pms-docker:latest # lscr.io/linuxserver/plex:latest
+    image:  lscr.io/linuxserver/plex:latest #plexinc/pms-docker:latest
     container_name: plex
     network_mode: host
     environment:
@@ -214,6 +214,7 @@ services:
       - PGID=${SERV_PGID:?err}
       - VERSION=docker # docker, latest, public or <specific-version>. Check the following link for more information: https://hub.docker.com/r/linuxserver/plex
       # - PLEX_CLAIM=claim-eSzxLSAjxJHCkZB2JWzp # Required for the first startup. Can be found here: https://plex.tv/claim. Warning: There is expiration time!
+      # DOCKER_MODS=ghcr.io/themepark-dev/theme.park:plex|lizardbyte/themerr-plex:latest #Optional Docker mods: ThemePark and Themerr
     volumes:
       - ${SERV_CFG_ROOT:?err}/plex:/config
       - ${SERV_STORAGE_PATH:?err}/Movies:/movies
