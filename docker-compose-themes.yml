@@ -323,3 +323,12 @@ services:
         - ${SERV_CFG_ROOT:?err}/plex-image-cleanup:/config
         - ${SERV_PLEX_CACHE:?err}:/plex:rw # According your Plex installation
       restart: unless-stopped
+
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8888:8080
+    restart: unless-stopped
