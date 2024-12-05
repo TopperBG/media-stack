@@ -167,17 +167,26 @@ services:
       - 8191:8191
     restart: unless-stopped
 
-  muximux:
-    image: lscr.io/linuxserver/muximux:latest
-    container_name: muximux
-    environment:
-      - TZ=Europe/Sofia
-      - PUID=${SERV_PUID:?err}
-      - PGID=${SERV_PGID:?err}
-    ports:
-      - 81:80
+  glances:
+    image: nicolargo/glances:latest
+    pid: host
+    network_mode: host
+    container_name: glances
     volumes:
-      - ${SERV_CFG_ROOT:?err}/muximux:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - "GLANCES_OPT=-w"
+    restart: unless-stopped
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    depends_on:
+      - glances
+    ports:
+      - 3000:3000
+    volumes:
+      - ${SERV_CFG_ROOT:?err}/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
 
   overseerr:
