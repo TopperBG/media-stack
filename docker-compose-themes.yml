@@ -332,3 +332,41 @@ services:
     ports:
       - 8888:8080
     restart: unless-stopped
+  
+  lingarr:
+    image: lingarr/lingarr:latest
+    container_name: lingarr
+    restart: unless-stopped
+    ports:
+      - "9876:8080"
+    volumes:
+      - ${SERV_STORAGE_PATH:?err}/Movies:/Movies #match with radarr
+      - ${SERV_STORAGE_PATH:?err}/Tv:/Tv #match with sonarr
+      - ${SERV_CFG_ROOT:?err}/lingarr:/app/config
+    networks:
+      - lingarr
+  LibreTranslate:
+    depends_on:
+      - lingarr
+    container_name: LibreTranslate
+    image: libretranslate/libretranslate:latest
+    restart: unless-stopped
+    environment:
+      - LT_LOAD_ONLY=en,bg # Important, replace with your preferred languages
+      - LT_UPDATE_MODELS=true
+    ports:
+      - 5000:5000
+    volumes:
+      - ${SERV_CFG_ROOT:?err}/libretranslate:/home/libretranslate/.local/share/argos-translate
+      - libretranslate_models:/home/libretranslate/.local:rw
+    networks:
+      - lingarr
+    healthcheck:
+      test: ["CMD-SHELL", "./venv/bin/python scripts/healthcheck.py"]
+
+networks:
+  lingarr:
+    external: true
+
+volumes:
+   libretranslate_models:
